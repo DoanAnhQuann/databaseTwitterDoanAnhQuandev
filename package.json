@@ -1,0 +1,38 @@
+{
+  "name": "twitter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx nodemon",
+    "build": "rimraf ./dist && tsc && tsc-alias",
+    "start": "node dist/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "tsc-alias": "^1.8.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.12.0"
+  }
+}
