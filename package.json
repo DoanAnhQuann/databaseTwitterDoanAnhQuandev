@@ -17,6 +17,7 @@
   "description": "",
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/lodash": "^4.17.14",
     "@types/node": "^22.10.2",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
@@ -33,6 +34,7 @@
     "express": "^4.21.2",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "mongodb": "^6.12.0"
   }
 }

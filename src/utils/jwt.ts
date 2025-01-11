@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
-
-
+import dotenv from 'dotenv'
+import { error } from 'console';
+import { TokenPayload } from '~/models/requests/User.requests';
+dotenv.config()
 export const signToken = ({payload, privateKey = process.env.JWT_SECRET as string, options = {
   algorithm: 'HS256'  // or 'HS384' or 'HS512'
 }} : {
@@ -16,4 +18,15 @@ options?: jwt.SignOptions
       return resolve(token as string);
     })
   })
+}
+
+export const verifyToken = ({ token, secretOrPublicKey = process.env.JWT_SECRET as string }: { token: string; secretOrPublicKey?: string }) => {
+ return new Promise<TokenPayload>((resolve, reject) => {
+  jwt.verify(token, secretOrPublicKey, (error, decoded) => {
+      if(error) { 
+        throw reject(error);
+      }
+      resolve(decoded as TokenPayload)
+  })
+ })
 }
