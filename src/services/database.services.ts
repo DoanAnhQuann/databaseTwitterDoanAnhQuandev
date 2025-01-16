@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import { Collection, Db, MongoClient, ServerApiVersion } from 'mongodb';
+import FollowUser from '~/models/schemas/FollowUsers.schema';
 import RefreshToken from '~/models/schemas/RefreshToken.schema';
 import User from '~/models/schemas/User.schema';
 dotenv.config()
@@ -41,6 +42,10 @@ get users(): Collection<User> {
 
 get refreshToken(): Collection<RefreshToken> {
   return this.db.collection(process.env.DB_REFRESH_TOKENS_COLLECTION as string);
+}
+
+get followers(): Collection<FollowUser> {
+  return this.db.collection(process.env.DB_FOLLOWERS_COLLECTION as string);
 }
 }
 

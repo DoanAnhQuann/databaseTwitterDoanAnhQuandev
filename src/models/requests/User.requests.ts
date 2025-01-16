@@ -22,3 +22,28 @@ export interface TokenPayload extends JwtPayload{
   user_id: string
   token_type: TokenType
 }
+
+export interface ForgotPasswordReqBody {
+  email: string
+}
+
+export interface ChangePasswordReqBody {
+  forgot_password_token: string
+  password: string
+  confirm_password: string
+}
+
+export interface UpdateProfileReqBody {
+  name?: string
+  date_of_birth?: string
+  bio?: string
+  location?: string
+  website?: string
+  username?: string
+  avatar?: string
+  cover_photo?: string
+}
+
+export interface FollowReqBody {
+  follow_user_id: string
+}
