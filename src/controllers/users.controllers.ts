@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-
+import dotenv from 'dotenv'
 import { ParamsDictionary } from 'express-serve-static-core'
 import {
   ChangePasswordReqBody,
@@ -20,6 +20,7 @@ import httpStatus from '~/constants/httpStatus'
 import { UserVerifyStatus } from '~/constants/enum'
 import { usersService } from '~/services/users.services'
 import { pick } from 'lodash'
+dotenv.config()
 export async function registerController(
   req: Request<ParamsDictionary, any, RegisterRequestBody>,
   res: Response,
@@ -41,6 +42,16 @@ export async function loginController(
   const verify = user.verify
   const result = await usersService.login({user_id: user_id.toString(), verify: verify})
   res.json({ success: true, message: usersMessages.LOGIN_SUCCESS, data: result })
+  return
+}
+
+export async function oauthController (req: Request, res: Response, next: NextFunction) {
+  const {code} = req.query
+  const result = await usersService.oauth(code as string)
+  // res.json({ success: true, message: result.newUser ? usersMessages.REGISTER_SUCCESS : usersMessages.LOGIN_SUCCESS ,  })
+  const urlRedirect = `${process.env.CLIENT_REDIRECT_URI}?access_token=${result.access_token}&refresh_token=${result.refresh_token}&new_user=${result.newUser}&verify=${result.verify}`
+  console.log(urlRedirect)
+  res.redirect(urlRedirect)
   return
 }
 

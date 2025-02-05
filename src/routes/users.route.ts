@@ -1,9 +1,10 @@
 import express from 'express'
-import { changePasswordController, emailVerifyController, followController, forgotPasswordController, getMyProfileController, getMyUserInformationController, loginController, logoutController, registerController, resendVerifyEmailController, resetPasswordController, unFollowController, updateMyProfileController, verifyForgotPasswordController } from '~/controllers/users.controllers'
+import { changePasswordController, emailVerifyController, followController, forgotPasswordController, getMyProfileController, getMyUserInformationController, loginController, logoutController, oauthController, registerController, resendVerifyEmailController, resetPasswordController, unFollowController, updateMyProfileController, verifyForgotPasswordController } from '~/controllers/users.controllers'
 import { filterBodyRes } from '~/middlewares/common.middlewares'
 import {  accessTokenValidator, changePasswordValidator, emailVerifyTokenValidator, followUserValidator, forgotPasswordValidator, getMyProfileValidator, loginValidator, refreshTokenValidator, registerValidator, resetPasswordValidator, unFollowUserValidator, updateMyProfileValidator, verifiedUserValidator, verifyForgotPasswordTokenValidator } from '~/middlewares/users.middleware'
 import { wrapRequestHandler } from '~/utils/handlers'
 export const usersRouter = express.Router()
+export const usersRouterOauth = express.Router()
 // usersRouter.post('/login', validate, (req, res, next) => {
 //   res.json({
 //     message: 'Hello, ABP_EDU_FE!'
@@ -25,6 +26,14 @@ usersRouter.post('/register', registerValidator, wrapRequestHandler(registerCont
  *  request: body : {email: string, password: string}
  */
 usersRouter.post('/login',loginValidator,wrapRequestHandler(loginController))
+
+/**
+ *  Dang nhap users 
+ *  path: /api/oauth/google
+ *  method: GET
+ 
+ */
+usersRouterOauth.get('/oauth/google',wrapRequestHandler(oauthController))
 
 /**
  *  Dang xuat users

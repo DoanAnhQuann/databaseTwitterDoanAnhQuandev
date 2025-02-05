@@ -6,6 +6,7 @@ export const usersMessages = {
   EMAIL_ALREADY_EXISTS: 'Email already exists',
   EMAIL_IS_REQUIRED: 'Email is required',
   EMAIL_IS_INVALID: 'Email is invalid',
+  EMAIL_NOT_VERIFIED: 'Email not verified',
   USER_NOT_FOUND: 'User not found',
   EMAIL_OR_PASSWORD_IS_INCORRECT: 'Email or password is incorrect',
   PASSWORD_IS_REQUIRED: 'Password is required',
