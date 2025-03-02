@@ -1,5 +1,5 @@
 import express from 'express'
-import { changePasswordController, emailVerifyController, followController, forgotPasswordController, getMyProfileController, getMyUserInformationController, loginController, logoutController, oauthController, registerController, resendVerifyEmailController, resetPasswordController, unFollowController, updateMyProfileController, verifyForgotPasswordController } from '~/controllers/users.controllers'
+import { changePasswordController, emailVerifyController, followController, forgotPasswordController, getMyProfileController, getMyUserInformationController, loginController, logoutController, oauthController, refreshTokenController, registerController, resendVerifyEmailController, resetPasswordController, unFollowController, updateMyProfileController, verifyForgotPasswordController } from '~/controllers/users.controllers'
 import { filterBodyRes } from '~/middlewares/common.middlewares'
 import {  accessTokenValidator, changePasswordValidator, emailVerifyTokenValidator, followUserValidator, forgotPasswordValidator, getMyProfileValidator, loginValidator, refreshTokenValidator, registerValidator, resetPasswordValidator, unFollowUserValidator, updateMyProfileValidator, verifiedUserValidator, verifyForgotPasswordTokenValidator } from '~/middlewares/users.middleware'
 import { wrapRequestHandler } from '~/utils/handlers'
@@ -150,6 +150,15 @@ usersRouter.post('/follow',accessTokenValidator ,verifiedUserValidator, followUs
  * 
 **/
 usersRouter.delete('/follow/:user_id',accessTokenValidator ,verifiedUserValidator, unFollowUserValidator ,wrapRequestHandler(unFollowController))
+
+/**
+    RefreshToken
+ *  path: /refresh-token
+ *  method: POST
+ *  Body: {refresh-token: string }
+ * 
+**/
+usersRouter.post('/refresh-token',refreshTokenValidator ,wrapRequestHandler(refreshTokenController))
 
 
 

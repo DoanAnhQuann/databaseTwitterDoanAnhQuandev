@@ -68,4 +68,20 @@ export const usersMessages = {
   USERNAME_INVALID: 'Username is invalid',
   USERNAME_ALREADY_EXISTS: 'Username already exists',
   OLD_PASSWORD_IS_INCORRECT: 'old password is incorrect',
+  UPLOAD_SUCCESS: 'upload successfully',
+  REFRESH_TOKEN_SUCCESS:'Refresh token successfully'
+} as const
+
+
+export const Tweets_Message = {
+  INVALID_TYPE: 'Type not valid',
+  INVALID_AUDIENCE: 'Audience not valid',
+  PARENT_ID_MUST_BE_NULL:'Parent ID must be null',
+  PARENT_ID_MUST_BE_A_VALID_TWEET_ID: 'Parent ID must be a valid tweet ID',
+  CONTENT_MUST_BE_A_NON_EMPTY_STRING:'Content must be empty string ',
+  CONTENT_MUST_BE_NULL:'Content must be null',
+  HASHTAGS_MUST_BE_AN_ARRAY_OF_STRING: 'Hastags must be an array of strings',
+  MENTIONS_MUST_BE_AN_ARRAY_OF_USERID: 'Hastags must be an array of userid',
+  MEDIAS_MUST_BE_AN_ARRAY_OF_MEDIA_OBJECT: 'Hastags must be an array of media'
+
 } as const

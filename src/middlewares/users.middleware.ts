@@ -320,6 +320,7 @@ export const refreshTokenValidator = validate(
               }
               ;(req as Request).decoded_refresh_token = decoded_refresh_token
             } catch (error) {
+              
               if (error instanceof JsonWebTokenError) {
                 throw new ErrorWithStatus({
                   message: usersMessages.REFRESH_TOKEN_IS_INVALID,
