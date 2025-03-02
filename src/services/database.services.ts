@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import { Collection, Db, MongoClient, ServerApiVersion } from 'mongodb';
 import FollowUser from '~/models/schemas/FollowUsers.schema';
 import RefreshToken from '~/models/schemas/RefreshToken.schema';
+import Tweet from '~/models/schemas/Tweets.schema';
 import User from '~/models/schemas/User.schema';
 dotenv.config()
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.a1ipw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -67,6 +68,10 @@ get refreshToken(): Collection<RefreshToken> {
 
 get followers(): Collection<FollowUser> {
   return this.db.collection(process.env.DB_FOLLOWERS_COLLECTION as string);
+}
+
+get tweets(): Collection<Tweet> {
+  return this.db.collection(process.env.DB_TWEETS_COLLECTION as string);
 }
 }
 
