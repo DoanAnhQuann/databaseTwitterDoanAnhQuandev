@@ -562,3 +562,15 @@ export const changePasswordValidator = validate(checkSchema({
   password: passwordSchema,
   confirm_password: confirmPasswordSchema
 }, ['body']))
+
+
+export const isUserLoggedInValidator = (middleware: (req: Request, res: Response, next: NextFunction) => void) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    //req.header ở server không phân biệt chữ hoa chữ thường
+    //req.headers map từ chữ hoa sang chữ thường
+    if(req.headers.authorization) {
+      return middleware(req, res, next)
+    }
+    next()
+  }
+}

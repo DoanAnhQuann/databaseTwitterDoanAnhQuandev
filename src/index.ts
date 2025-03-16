@@ -7,6 +7,8 @@ import { initFolder } from './utils/file'
 import { UPLOAD_IMAGE_DIR } from './constants/dir'
 import { staticsRouter } from './routes/statics.routes'
 import tweetsRouter from './routes/tweets.routes'
+import { bookmarkRoutes } from './routes/bookmarks.routes'
+// import '~/utils/fake'
 const app = express()
 const port = 4000
 // Tạo folder upload nếu ko có
@@ -18,6 +20,7 @@ app.use('/medias', mediasRoutes)
 //cách 1 để xem ảnh khi trả về url 
 app.use('/static', staticsRouter)
 app.use('/tweets', tweetsRouter)
+app.use('/bookmark', bookmarkRoutes)
 //cách 2 để xem ảnh khi trả về url 
 // app.use('/static/image',express.static(UPLOAD_IMAGE_DIR))
 databaseService.connect().then(() =>{

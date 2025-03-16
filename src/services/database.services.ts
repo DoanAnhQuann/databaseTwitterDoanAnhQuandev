@@ -1,6 +1,8 @@
 import dotenv from 'dotenv'
 import { Collection, Db, MongoClient, ServerApiVersion } from 'mongodb';
+import BookMarks from '~/models/schemas/BookMarks.schema';
 import FollowUser from '~/models/schemas/FollowUsers.schema';
+import Hashtag from '~/models/schemas/Hashtags.schema';
 import RefreshToken from '~/models/schemas/RefreshToken.schema';
 import Tweet from '~/models/schemas/Tweets.schema';
 import User from '~/models/schemas/User.schema';
@@ -72,6 +74,12 @@ get followers(): Collection<FollowUser> {
 
 get tweets(): Collection<Tweet> {
   return this.db.collection(process.env.DB_TWEETS_COLLECTION as string);
+}
+get hashtags(): Collection<Hashtag> {
+  return this.db.collection(process.env.DB_HASHTAGS_COLLECTION as string);
+}
+get bookmarks(): Collection<BookMarks> {
+  return this.db.collection(process.env.DB_BOOKMARKS_COLLECTION as string);
 }
 }
 
