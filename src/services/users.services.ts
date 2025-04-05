@@ -13,6 +13,8 @@ import httpStatus from '~/constants/httpStatus'
 import { verify } from 'crypto'
 import FollowUser from '~/models/schemas/FollowUsers.schema'
 import axios from 'axios'
+import { sendForgotPasswordEmail, sendVerifyRegisterEmail } from '~/utils/email'
+
 dotenv.config()
 class UsersService {
   private signAccessToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
@@ -122,7 +124,14 @@ class UsersService {
     const {iat, exp} = await this.decodeRefreshToken(refresh_token)
     databaseService.refreshToken.insertOne(new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token, iat, exp }))
 
+    //flow verify email
+    //1 server send email to user
+    //2 user click on link in email
+    //3 fe send request to server with email_verify_token
+    //4 server verify email token
+    //5 fe nhận accessToken và refresh token
     console.log(email_verify_token)
+    await sendVerifyRegisterEmail(payload.email, email_verify_token)
     return {
       access_token,
       refresh_token
@@ -278,13 +287,13 @@ class UsersService {
     }
   }
 
-  async resendVerifyEmail(user_id: string) {
+  async resendVerifyEmail(user_id: string, email: string) {
     const email_verify_token = await this.signEmailVerifyToken({
       user_id: user_id.toString(),
       verify: UserVerifyStatus.Unverified
     })
     // Gửi email tại đây
-    console.log('SEND EMAIL', email_verify_token)
+    await sendVerifyRegisterEmail(email, email_verify_token)
 
     //cập nhật lại giá trị email_verify_token trong document user
     await databaseService.users.updateOne(
@@ -299,7 +308,7 @@ class UsersService {
     }
   }
 
-  async forgotPassword({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
+  async forgotPassword({ user_id, verify, email }: { user_id: string; verify: UserVerifyStatus, email: string }) {
     const forgot_password_token = await this.signForgotPasswordToken({ user_id, verify })
     await databaseService.users.updateOne(
       { _id: new ObjectId(user_id) },
@@ -310,8 +319,7 @@ class UsersService {
     )
 
     //gửi email kèm đường link tới người dùng: https://twitter.com/forgot-password?token=token
-
-    console.log('SEND EMAIL FORGOT PASSWORD', forgot_password_token)
+    await sendForgotPasswordEmail(email, forgot_password_token)
     return {
       message: usersMessages.FORGOT_PASSWORD_SEND_EMAIL_SUCCESS
     }
@@ -336,7 +344,6 @@ class UsersService {
       { _id: new ObjectId(user_id) },
       {
         projection: {
-          _id: 0,
           password: 0,
           email_verify_token: 0,
           forgot_password_token: 0
@@ -382,7 +389,6 @@ class UsersService {
       { username },
       {
         projection: {
-          _id: 0,
           password: 0,
           verify:0,
           email_verify_token: 0,

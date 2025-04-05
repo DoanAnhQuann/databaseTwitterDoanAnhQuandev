@@ -4,10 +4,10 @@ import { bookMarkValidator } from "~/middlewares/bookMarks.middlewares";
 import { accessTokenValidator, verifiedUserValidator } from "~/middlewares/users.middleware";
 import { wrapRequestHandler } from "~/utils/handlers";
 
-export const bookmarkRoutes = Router()
+export const bookmarkRouter = Router()
 
 /**
  * Bookmarks 
  * 
  */
-bookmarkRoutes.post('/', accessTokenValidator,bookMarkValidator, verifiedUserValidator, wrapRequestHandler(bookmarksController))
+bookmarkRouter.post('/', accessTokenValidator,bookMarkValidator, verifiedUserValidator, wrapRequestHandler(bookmarksController))

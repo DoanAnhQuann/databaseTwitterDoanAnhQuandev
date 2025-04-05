@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 import { Collection, Db, MongoClient, ServerApiVersion } from 'mongodb';
 import BookMarks from '~/models/schemas/BookMarks.schema';
+import Conversations from '~/models/schemas/Conversation.schema';
 import FollowUser from '~/models/schemas/FollowUsers.schema';
 import Hashtag from '~/models/schemas/Hashtags.schema';
 import RefreshToken from '~/models/schemas/RefreshToken.schema';
@@ -17,7 +18,7 @@ class DatabaseService {
     this.client = new MongoClient(uri, {
       serverApi: {
         version: ServerApiVersion.v1,
-        strict: true,
+        strict: false,
         deprecationErrors: true,
       }
     });
@@ -60,6 +61,17 @@ async indexRefreshToken() {
   this.followers.createIndex({user_id: 1, followed_user_id: 1}, {unique: true})
   }  
 }
+
+async indexTweets() {
+  const exists = await this.tweets.indexExists(['user_id_1_created_at_1'])
+  const existsContentText = await this.tweets.indexExists(['content_text'])
+  if (!exists) {
+    this.tweets.createIndex({ user_id: 1, created_at: 1 })
+  }
+  if(!existsContentText) {
+    this.tweets.createIndex({ content: 'text' }, {default_language: 'none'})
+  }
+}
 get users(): Collection<User> {
   return this.db.collection(process.env.DB_USER_COLLECTION as string);
 }
@@ -80,6 +92,9 @@ get hashtags(): Collection<Hashtag> {
 }
 get bookmarks(): Collection<BookMarks> {
   return this.db.collection(process.env.DB_BOOKMARKS_COLLECTION as string);
+}
+get conversations(): Collection<Conversations> {
+  return this.db.collection(process.env.DB_CONVERSATIONS_COLLECTION as string);
 }
 }
 

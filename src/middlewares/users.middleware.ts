@@ -175,7 +175,7 @@ const dateOfBirthSchema: ParamSchema = {
   }
 }
 
-const followUserIdSchema: ParamSchema = {
+export const followUserIdSchema: ParamSchema = {
   custom: {
     options: async (value: string, {req}) => {
       if(!ObjectId.isValid(value)) {
@@ -431,12 +431,7 @@ export const getMyProfileValidator = validate(
 
 export const verifiedUserValidator = (req: Request, res: Response, next: NextFunction) =>{
   const {verify} = req.decoded_authorization as TokenPayload
-  if(verify !== UserVerifyStatus.Verified) {
-    next( new ErrorWithStatus({
-      message: usersMessages.USER_NOT_VERIFIED,
-      status: httpStatus.FORBIDDEN
-    }))
-  } 
+  
   next()
 }
 
@@ -533,6 +528,7 @@ export const followUserValidator = validate(
   checkSchema({
     follow_user_id: followUserIdSchema
 },['body']))
+
 
 export const unFollowUserValidator = validate(
   checkSchema({
