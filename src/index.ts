@@ -14,8 +14,10 @@ import { conversationRoutes } from './routes/conversation.routes'
 import initSocket from './utils/socket'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
+import { config } from 'dotenv'
 // import '~/utils/s3'
 // import '~/utils/fake'
+config()
 const app = express()
 
 const limiter = rateLimit({
@@ -27,7 +29,7 @@ const limiter = rateLimit({
 })
 app.use(limiter)
 const httpServer = createServer(app);
-const port = 4001
+const port = process.env.PORT
 app.use(helmet())
 app.use(cors({
   origin: '*', // allow only your frontend origin
